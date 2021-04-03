@@ -1,15 +1,17 @@
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer
+from flask_migrate import Migrate
 from flask import Flask
-import config
+from .config import *
 
-db = SQLAlchemy()
 
+app = Flask(__name__)
+db = SQLAlchemy(app)
 def setup_db(app):
-    app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+    app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    dp.app = app
+    db.app = app
     db.init_app(app)
 
 
@@ -24,6 +26,7 @@ def db_drop_and_create_all():
         age=27,
         board_id=0
     )
+
 
     board = Board(
         board_state = "123456789",
@@ -64,7 +67,7 @@ class Board(db.Model):
     id = Column(db.Integer, primary_key=True)
     board_state = Column(db.String)
     moves = Column(db.String)
-    user_id = Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    user_id = Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
     def moves(self):

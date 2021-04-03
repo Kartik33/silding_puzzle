@@ -14,9 +14,9 @@ from flask import url_for
 from authlib.integrations.flask_client import OAuth
 from six.moves.urllib.parse import urlencode
 from flask_migrate import Migrate
-from model.model import *
+from flask_sqlalchemy import SQLAlchemy
 import constants
-
+from model.model import db,setup_db
 
 
 ENV_FILE = find_dotenv()
@@ -33,9 +33,7 @@ AUTH0_AUDIENCE = env.get(constants.AUTH0_AUDIENCE)
 app = Flask(__name__, static_url_path='/public', static_folder='./public')
 app.secret_key = constants.SECRET_KEY
 app.debug = True
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/puzzle'
-db = SQLAlchemy(app)
+setup_db(app)
 migrate = Migrate(app,db)
 
 @app.errorhandler(Exception)
