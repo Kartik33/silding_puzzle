@@ -139,6 +139,14 @@ def deltePlayer(payload,player_id):
 ##################################################################
 
 
+############################Guest Player###########################
+
+@app.route("/solve",methods=["GET"])
+def guestSolve():
+    return render_template('test.html')
+
+
+
 
 
 ##############################Player route####################################

@@ -1,0 +1,52 @@
+.center {
+      position: fixed;
+	top: 30%;
+	left: 50%;
+	margin-top: -50px;
+	margin-left: -100px;
+
+}
+.container {
+  background: black;
+  display: inline-block;
+  border: 5px solid black;
+
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  grid-template-rows: repeat(3, 80px);
+  grid-gap: 5px;
+}
+
+.input {
+	width: 50%; 
+	height: 50%;
+} 
+
+.cell {
+   /* center the cell content */
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-family: Arial;
+  font-size: 3rem;
+  font-weight: bold;
+  background: white;
+}
+
+.buttons {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin: 20px
+}
+
+.puzzleheading {
+text-align: center;
+}
+
+.welcome {
+text-align: center;
+}
