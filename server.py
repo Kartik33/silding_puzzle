@@ -1,22 +1,22 @@
 """Python Flask WebApp Auth0 integration example
 """
 from functools import wraps
-import json
 from os import environ as env
-from werkzeug.exceptions import HTTPException
 
+
+from flask_cors import CORS
 from dotenv import load_dotenv, find_dotenv
-from flask import Flask
-from flask import jsonify
-from flask import redirect
-from flask import render_template
-from flask import url_for
-from authlib.integrations.flask_client import OAuth
-from six.moves.urllib.parse import urlencode
+from flask import Flask,abort,jsonify,request,redirect, url_for,render_template
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 import constants
-from model.model import db,setup_db
+from model.model import db,setup_db,Player,Board
+from solve_puzzle import Board as b ,AStarSearch
+from model.config import *
+from authlib.integrations.flask_client import OAuth
+import ast
+from auth.auth import requires_auth,AuthError 
+
 
 
 ENV_FILE = find_dotenv()
@@ -30,18 +30,21 @@ AUTH0_DOMAIN = env.get(constants.AUTH0_DOMAIN)
 AUTH0_BASE_URL = 'https://' + AUTH0_DOMAIN
 AUTH0_AUDIENCE = env.get(constants.AUTH0_AUDIENCE)
 
+
+##########################database connections##############################
+
 app = Flask(__name__, static_url_path='/public', static_folder='./public')
 app.secret_key = constants.SECRET_KEY
 app.debug = True
-setup_db(app)
+app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db = setup_db(app)
 migrate = Migrate(app,db)
+CORS(app)
+##############################################################
 
-@app.errorhandler(Exception)
-def handle_auth_error(ex):
-    response = jsonify(message=str(ex))
-    response.status_code = (ex.code if isinstance(ex, HTTPException) else 500)
-    return response
 
+##############################Authentication##########################################
 
 oauth = OAuth(app)
 
@@ -58,59 +61,237 @@ auth0 = oauth.register(
 )
 
 
-def requires_auth(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        if constants.PROFILE_KEY not in session:
-            return redirect('/login')
-        return f(*args, **kwargs)
-
-    return decorated
 
 
-# Controllers API
-@app.route('/')
-def home():
-    return render_template('home.html')
+@app.route('/login')
+def login():
+    return auth0.authorize_redirect(redirect_uri=AUTH0_CALLBACK_URL, audience=AUTH0_AUDIENCE)
+
+
 
 
 @app.route('/callback')
 def callback_handling():
     token = auth0.authorize_access_token()
-    breakpoint()
     resp = auth0.get('userinfo')
     userinfo = resp.json()
-
-    session[constants.JWT_PAYLOAD] = userinfo
-    session[constants.PROFILE_KEY] = {
-        'user_id': userinfo['sub'],
-        'name': userinfo['name'],
-        'picture': userinfo['picture']
-    }
-    return redirect('/dashboard')
-
-
-@app.route('/login')
-def login():
-    #return {"hi","how are you"}
-    return auth0.authorize_redirect(redirect_uri=AUTH0_CALLBACK_URL, audience=AUTH0_AUDIENCE)
+    email = userinfo['email']
+    name = userinfo['nickname']
+    user = Player.query.filter(Player.username==email).one_or_none()
+    if not user:
+        user = Player(name=name,username=email)
+        user.insert()
+    return redirect(url_for(
+                    '.home',
+                    id_token=token['id_token'],
+                    access_token=token['access_token'])
+                    )
+############################################################################################
 
 
-@app.route('/logout')
-def logout():
-    session.clear()
-    params = {'returnTo': url_for('home', _external=True), 'client_id': AUTH0_CLIENT_ID}
-    return redirect(auth0.api_base_url + '/v2/logout?' + urlencode(params))
+# Controllers API
+@app.route('/')
+#@requires_auth()
+def home():
+    id_token = request.args['id_token']
+    jwt = request.args['access_token']
+    return jsonify({
+                "success":True,
+                "jwt":jwt,
+                "id_token":id_token
+                })
 
 
-@app.route('/dashboard')
-@requires_auth
-def dashboard():
-    return render_template('dashboard.html',
-                           userinfo=session[constants.PROFILE_KEY],
-                           userinfo_pretty=json.dumps(session[constants.JWT_PAYLOAD], indent=4))
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Headers','*')
+    response.headers.add("Access-Control-Allow-Credentials","true")
+    response.headers.add('Access-Control-Allow-Methods','GET,POST,PATCH,DELETE,OPTIONS')
+    return response
+
+#########################Admin##################################
+
+@app.route('/players',methods=['GET'])
+@requires_auth(permission=['get:player'])
+def getPlayers(payload):
+    players = Player.query.all()
+    players = [i.only_users() for i in players]
+    return jsonify({"success":True,
+            "status_code":200,
+            "players":players})
 
 
-#if __name__ == "__main__":
-#    app.run(host='0.0.0.0', port=env.get('PORT', 3000))
 
+
+@app.route('/player/<int:player_id>',methods=['DELETE'])
+@requires_auth(permission=['delete:player'])
+def deltePlayer(payload,player_id):
+    player = Player.query.filter(Player.id==player_id).one_or_none()
+    if not player:
+        abort(404)
+    player.delete()
+    return jsonify({
+        "success":True,
+        "status_code":200,
+        "player_id":player_id
+        })
+
+##################################################################
+
+
+
+
+##############################Player route####################################
+
+
+
+@app.route('/player/<int:player_id>/boards', methods=['GET'])
+@requires_auth(permission=["get:board"])
+def getBoards(payload,player_id):
+    username = payload[1]['email'] 
+    player = Player.query.filter(Player.username==username).one_or_none()
+    if not player:
+        abort(404)
+    elif player.id != player_id:
+        abort(400)
+    return jsonify({"success":True,
+            "player_id":player_id,
+            "player_name":player.name,
+            "status_code":200,
+            "boards":player.only_boards()})
+
+
+
+
+@app.route('/board/<int:board_id>',methods=['DELETE'])
+@requires_auth(permission=["delete:board"])
+def deleteBoard(payload,board_id):
+    username = payload[1]['email'] 
+    player = Player.query.filter(Player.username==username).one_or_none() 
+    if not player:
+        abort(404)
+    boardCol = Board.query\
+        .filter(Board.id==board_id)\
+        .filter(Board.user_id==player.id)\
+        .one_or_none()
+
+    if not boardCol:
+        abort(404)
+    
+    try:
+        boardCol.delete()
+    except:
+        abort(422)
+    
+    return jsonify({
+            "success":True,
+            "status_code":200,
+            "board_id":board_id})
+
+
+
+
+
+@app.route('/board/<int:board_id>', methods=['PATCH'])
+@requires_auth(permission=["update:board"])
+def updateBoard(payload,board_id):
+    username=payload[1]["email"]
+    player = Player.query.filter(Player.username==username).one_or_none()
+    if not player:
+        abord(404)
+    body = request.get_json()
+    board = body.get('board',None)
+    boardCol = Board.query\
+        .filter(Board.id==board_id)\
+        .filter(Board.user_id==player.id)\
+        .one_or_none()
+
+    if not boardCol:
+        abort(400)
+    boardList = [int(i) for i in board.split(",")]
+    boardObject = b(tuple([int(x) for x in boardList]))
+    algorithm = AStarSearch(boardObject)
+    result = algorithm.search()
+    if result:
+        moves = result['moviments']
+    else:
+        moves = "notpossible"
+    try:
+        boardCol.moves = str(moves)
+        boardCol.board = board
+        boardCol.update()
+    except:
+        abort(422)
+
+    return {
+            "success":True,
+            "status_code":200,
+            "board_id":board_id}
+
+
+
+
+
+@app.route('/solve',methods=['POST'])
+@requires_auth(permission=["post:solve_puzzle"])
+def solvePuzzle(payload):
+    username = payload[1]['email']
+    player = Player.query.filter(Player.username==username).one_or_none() 
+    body = request.get_json()
+    if not body:
+        abort(400)
+    board = body.get('board',None)
+    if not board or not player:
+        abort(400)
+    boardList = [int(i) for i in board.split(",")]
+    if len(boardList) != 9 or sorted(boardList) != [i for i in range(9)]:
+        abort(400)
+    boardObject = b(tuple([int(x) for x in boardList]))
+    algorithm = AStarSearch(boardObject)
+    result = algorithm.search()
+    moves = result['moviments']
+    try:
+        boardColumn = Board(
+                      board_state=board,
+                      moves=str(moves),
+                      user_id=player.id)
+
+        boardColumn.insert()
+    except:
+        abort(422)
+
+    return jsonify({
+        "success":True,
+        "status_code":200,
+        "user_id":player.id,
+        "board_state":board,
+        "solution":moves}) 
+
+################################Error Handlers#####################################
+
+
+@app.errorhandler(400)
+def notFound(error):
+    return jsonify({
+           "success": False, 
+           "error": 400,
+           "message": "bad request"
+           }), 400
+
+@app.errorhandler(AuthError)
+def handle_auth_error(ex):
+    return jsonify({
+        "success":False,
+        "error":ex.status_code,
+        "message":ex.error}),ex.status_code
+
+
+
+##############################################################################
+
+
+
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=env.get('PORT', 3000))
