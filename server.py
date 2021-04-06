@@ -141,13 +141,28 @@ def deltePlayer(payload,player_id):
 
 ############################Guest Player###########################
 
+@app.route("/guest",methods=["GET"])
+def show_board_guest():
+    return render_template('home.html')
+
+
+
 @app.route("/solve",methods=["GET"])
-def guestSolve():
-    return render_template('test.html')
-
-
-
-
+def geust_solve():
+    board = request.args["board"]
+    if not board:
+        abort(400)
+    boardList = [int(i) for i in board.split(",")]
+    if len(boardList) != 9 or sorted(boardList) != [i for i in range(9)]:
+        abort(400)
+    boardObject = b(tuple([int(x) for x in boardList]))
+    algorithm = AStarSearch(boardObject)
+    result = algorithm.search()
+    moves = result['moviments']
+    return jsonify({
+        "success":True,
+        "moves":moves
+        })
 
 ##############################Player route####################################
 

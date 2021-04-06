@@ -1,0 +1,71 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="../public/home.css">
+	</head>
+
+	<body>
+		<h1 class="puzzleheading">Silding Puzzle</h1>
+		<h3 class="welcome">
+			Welcome to the guest endpoint of the APIse<br>
+			&<br>
+			get information on consuming the same in your front-end project
+		</h3>	
+		<h3 class="welcome">
+            The bot will solve the puzzle for you, but the input is
+            still manual. Thanks!
+		</h3>	
+		        	<div class=buttons>
+                        <button class="infoButton">To know how to utlise the Api</button>
+		        	</div>
+		<div class="center">
+				<div class="container">
+				  	<div class="grid">
+				  	          <div class="cell" ><input id="1" class="input"></input></input></div>
+				  	     	  <div class="cell" ><input id="2" class="input"></input></input></div>
+				  	     	  <div class="cell" ><input id="3" class="input"></input></input></div>
+				  	     	  <div class="cell" ><input id="4" class="input"></input></input></div>
+				  	     	  <div class="cell" ><input id="5" class="input"></input></input></div>
+				  	     	  <div class="cell" ><input id="6" class="input"></input></input></div>
+				  	     	  <div class="cell" ><input id="7" class="input"></input></input></div>
+				  	     	  <div class="cell" ><input id="8" class="input"></input></input></div>
+				  	     	  <div class="cell" ><input id="9" class="input"></input></input></div>
+				  	</div>
+				</div>
+				<div class="buttons">
+					<button class="solve" onclick="guestSolve()">Solve!</button>
+					<button class="login">Login</button>
+		        </div>
+                <div class="moves">
+                    <p id="solution" >Moves</p>
+                </div>
+		</div>
+	</body>
+    <script>
+
+        function getboard() {
+            var i;
+            var board = document.getElementById('1').value;
+            for (i = 2; i < 10; i++) {
+                temp = document.getElementById(''+i).value;
+                board = board+","+temp;
+            };
+            return board;
+        }
+        function guestSolve() {
+            var board = getboard() 
+            console.log(board)
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status==200){
+                    var resp = JSON.parse(this.responseText);
+                    document.getElementById("solution").innerHTML=resp["moves"];
+                }
+            };
+            xhttp.open("GET", "/dummy?board="+board);
+            xhttp.send(board);
+        }
+
+
+        
+    </script>
+</html>
