@@ -1,3 +1,7 @@
+.center {
+  width: 50%; 
+  margin: 0px auto;
+}
 .container {
   background: black;
   display: inline-block;
@@ -34,8 +38,8 @@
 }
 
 .infoButton {
-    align-items: center;
-    margin: 3%
+  width: 40%; 
+  margin: 3% auto;
 }
 
 .puzzleheading {
