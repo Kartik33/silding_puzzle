@@ -36,7 +36,7 @@ AUTH0_AUDIENCE = env.get(constants.AUTH0_AUDIENCE)
 app = Flask(__name__, static_url_path='/public', static_folder='./public')
 app.secret_key = constants.SECRET_KEY
 app.debug = True
-app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = setup_db(app)
 migrate = Migrate(app,db)

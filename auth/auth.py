@@ -3,17 +3,26 @@ from flask import request, _request_ctx_stack
 from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
+from dotenv import load_dotenv, find_dotenv
 
-
-AUTH0_DOMAIN = 'fsnd33.us.auth0.com'
-ALGORITHMS = ['RS256']
-API_AUDIENCE = 'puzzle'
-CLIENT_ID = '4I5ewXBHtNvpcUYX1UvG5lIZrmc8g40y'
 ## AuthError Exception
 '''
 AuthError Exception
 A standardized way to communicate auth failure modes
 '''
+
+ENV_FILE=find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
+
+AUTH0_CLIENT_ID = env.get(constants.AUTH0_CLIENT_ID)
+AUTH0_DOMAIN = env.get(constants.AUTH0_DOMAIN)
+AUTH0_AUDIENCE = env.get(constants.AUTH0_AUDIENCE)
+ALGORITHMS = env.get(constants.ALGORITHMS)
+
+
+
+
 class AuthError(Exception):
     def __init__(self, error, status_code):
         self.error = error
