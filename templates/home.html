@@ -25,42 +25,25 @@
 			<div class="container grid">
 				<div class="container row">
 					<div class="container col-4"><input id="1" class="input"></div>
-					<div class="container col-4"><input id="1" class="input"></div>
-					<div class="container col-4"><input id="1" class="input"></div>
+					<div class="container col-4"><input id="2" class="input"></div>
+					<div class="container col-4"><input id="3" class="input"></div>
 				</div>
 				<div class="container row">
-					<div class="container col-4"><input id="1" class="input"></div>
-					<div class="container col-4"><input id="1" class="input"></div>
-					<div class="container col-4"><input id="1" class="input"></div>
+					<div class="container col-4"><input id="4" class="input"></div>
+					<div class="container col-4"><input id="5" class="input"></div>
+					<div class="container col-4"><input id="6" class="input"></div>
 				</div>
 				<div class="container row">
-					<div class="container col-4"><input id="1" class="input"></div>
-					<div class="container col-4"><input id="1" class="input"></div>
-					<div class="container col-4"><input id="1" class="input"></div>
+					<div class="container col-4"><input id="7" class="input"></div>
+					<div class="container col-4"><input id="8" class="input"></div>
+					<div class="container col-4"><input id="9" class="input"></div>
 				</div>
 			</div>
 		</div>
 
-
-		<!-- <div class="container center">
-			<div class="container grid-container">
-				<div class="container grid">
-					<div class="container cell"><input id="1" class="input"></input></input></div>
-					<div class="container cell"><input id="2" class="input"></input></input></div>
-					<div class="container cell"><input id="3" class="input"></input></input></div>
-					<div class="container cell"><input id="4" class="input"></input></input></div>
-					<div class="container cell"><input id="5" class="input"></input></input></div>
-					<div class="container cell"><input id="6" class="input"></input></input></div>
-					<div class="container cell"><input id="7" class="input"></input></input></div>
-					<div class="container cell"><input id="8" class="input"></input></input></div>
-					<div class="container cell"><input id="9" class="input"></input></input></div>
-				</div>
-			</div>			
-		</div> -->
-
 		<div class="container buttons">
 			<button class="btn btn-secondary solve" onclick="guestSolve()">Solve!</button>
-			<button class="btn btn-secondary login">Login</button>
+			<a href="/login"><button class="btn btn-secondary login">Login</button></a>
 		</div>
 		<div class="container moves">
 			<p id="solution">Moves</p>
@@ -88,7 +71,7 @@
 					document.getElementById("solution").innerHTML = resp["moves"];
 				}
 			};
-			xhttp.open("GET", "/dummy?board=" + board);
+			xhttp.open("GET", "/guest?board=" + board);
 			xhttp.send(board);
 		}
 	</script>

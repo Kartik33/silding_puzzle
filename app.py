@@ -84,8 +84,8 @@ def callback_handling():
         user.insert()
     return redirect(url_for(
                     '.home',
-                    id_token=token['id_token'],
-                    access_token=token['access_token'])
+                    id_token=,
+                    access_token=token['access_token']+" "+token['id_token'])
                     )
 ############################################################################################
 

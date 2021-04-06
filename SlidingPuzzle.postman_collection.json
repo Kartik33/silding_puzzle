@@ -305,7 +305,8 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"board\":\"6,1,8,4,0,2,7,3,5\"}",
+							"raw": "{\"board\":\"
+q\"}",
 							"options": {
 								"raw": {
 									"language": "json"
