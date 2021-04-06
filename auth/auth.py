@@ -21,8 +21,8 @@ if ENV_FILE:
 
 AUTH0_CLIENT_ID = env.get(constants.AUTH0_CLIENT_ID)
 AUTH0_DOMAIN = env.get(constants.AUTH0_DOMAIN)
-AUTH0_AUDIENCE = env.get(constants.AUTH0_AUDIENCE)
-ALGORITHMS = env.get(constants.ALGORITHMS)
+API_AUDIENCE = env.get(constants.AUTH0_AUDIENCE)
+ALGORITHMS = [env.get(constants.ALGORITHMS)]
 
 
 
@@ -107,7 +107,7 @@ def verify_decode_id_token(token):
                 token,
                 rsa_key,
                 algorithms=ALGORITHMS,
-                audience=CLIENT_ID,
+                audience=AUTH0_CLIENT_ID,
                 issuer='https://' + AUTH0_DOMAIN + '/'
             )
 
@@ -205,7 +205,7 @@ def requires_auth(permission=''):
             except:
                 raise AuthError({
                             'code': 'invalid_header',
-                            'description': 'Unable to find the appropriate key.'
+                            'description': 'Token varification failed.'
                         }, 401)
             admin = check_permissions(permission, access_payload)
             return f([access_payload,id_payload], *args, **kwargs)

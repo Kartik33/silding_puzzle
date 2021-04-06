@@ -71,7 +71,7 @@
 					document.getElementById("solution").innerHTML = resp["moves"];
 				}
 			};
-			xhttp.open("GET", "/guest?board=" + board);
+			xhttp.open("GET", "/solve?board=" + board);
 			xhttp.send(board);
 		}
 	</script>
