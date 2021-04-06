@@ -1,4 +1,4 @@
-import os
+from os import environ as env
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer
 from flask_migrate import Migrate

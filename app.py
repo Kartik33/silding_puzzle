@@ -2,6 +2,7 @@
 """
 from functools import wraps
 from os import environ as env
+from boto.s3.connection import S3Connection
 
 
 from flask_cors import CORS
@@ -19,9 +20,11 @@ from auth.auth import requires_auth,AuthError
 
 
 
-ENV_FILE = find_dotenv()
-if ENV_FILE:
-    load_dotenv(ENV_FILE)
+#ENV_FILE = find_dotenv()
+#if ENV_FILE:
+#    load_dotenv(ENV_FILE)
+
+
 
 AUTH0_CALLBACK_URL = env.get(constants.AUTH0_CALLBACK_URL)
 AUTH0_CLIENT_ID = env.get(constants.AUTH0_CLIENT_ID)
