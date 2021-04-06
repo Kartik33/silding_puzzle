@@ -2,7 +2,6 @@
 """
 from functools import wraps
 from os import environ as env
-from boto.s3.connection import S3Connection
 
 
 from flask_cors import CORS
