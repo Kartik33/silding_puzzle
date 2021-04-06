@@ -4,9 +4,9 @@ from sqlalchemy import Column, String, Integer
 from flask_migrate import Migrate
 from flask import Flask
 
-
 app = Flask(__name__)
 db = SQLAlchemy()
+
 def setup_db(app):
     db.app = app
     db.init_app(app)

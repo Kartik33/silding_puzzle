@@ -1,4 +1,4 @@
-alembic==1.5.4
+aglembic==1.5.4
 appdirs==1.4.4
 Authlib==0.15.3
 autorandr==1.10.1.post1
@@ -32,7 +32,7 @@ MarkupSafe==1.1.1
 packaging==20.9
 pipenv==2020.8.13
 pkginfo==1.7.0
-#psycopg2==2.8.6
+psycopg2==2.8.6
 pyasn1==0.4.8
 pycparser==2.20
 Pygments==2.6.1

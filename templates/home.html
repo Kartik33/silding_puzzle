@@ -1,71 +1,100 @@
 <html>
-	<head>
-		<link rel="stylesheet" href="../public/home.css">
-	</head>
 
-	<body>
+<head>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+	<link rel="stylesheet" href="../public/home.css">
+</head>
+
+<body>
+	<div class="container main-container">
 		<h1 class="puzzleheading">Silding Puzzle</h1>
 		<h3 class="welcome">
 			Welcome to the guest endpoint of the APIse<br>
 			&<br>
 			get information on consuming the same in your front-end project
-		</h3>	
+		</h3>
 		<h3 class="welcome">
-            		The bot will solve the puzzle for you, but the input is
-            		still manual. Thanks!
-		</h3>	
-		        	<div class=infoButton>
-                        <button class="infoButton">To know how to utlise the Api</button>
-		        	</div>
-		<div class="center">
-				<div class="container">
-				  	<div class="grid">
-				  	          <div class="cell" ><input id="1" class="input"></input></input></div>
-				  	     	  <div class="cell" ><input id="2" class="input"></input></input></div>
-				  	     	  <div class="cell" ><input id="3" class="input"></input></input></div>
-				  	     	  <div class="cell" ><input id="4" class="input"></input></input></div>
-				  	     	  <div class="cell" ><input id="5" class="input"></input></input></div>
-				  	     	  <div class="cell" ><input id="6" class="input"></input></input></div>
-				  	     	  <div class="cell" ><input id="7" class="input"></input></input></div>
-				  	     	  <div class="cell" ><input id="8" class="input"></input></input></div>
-				  	     	  <div class="cell" ><input id="9" class="input"></input></input></div>
-				  	</div>
-				</div>
-				<div class="buttons">
-					<button class="solve" onclick="guestSolve()">Solve!</button>
-					<button class="login">Login</button>
-		        </div>
-                <div class="moves">
-                    <p id="solution" >Moves</p>
-                </div>
+			The bot will solve the puzzle for you, but the input is
+			still manual. Thanks!
+		</h3>
+		<div class=buttons>
+			<button type="button" class="btn btn-secondary infoButton">To know how to utlise the Api</button>
 		</div>
-	</body>
-    <script>
-
-        function getboard() {
-            var i;
-            var board = document.getElementById('1').value;
-            for (i = 2; i < 10; i++) {
-                temp = document.getElementById(''+i).value;
-                board = board+","+temp;
-            };
-            return board;
-        }
-        function guestSolve() {
-            var board = getboard() 
-            console.log(board)
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status==200){
-                    var resp = JSON.parse(this.responseText);
-                    document.getElementById("solution").innerHTML=resp["moves"];
-                }
-            };
-            xhttp.open("GET", "/dummy?board="+board);
-            xhttp.send(board);
-        }
+		<div class="container row grid-container">
+			<div class="container grid">
+				<div class="container row">
+					<div class="container col-4"><input id="1" class="input"></div>
+					<div class="container col-4"><input id="1" class="input"></div>
+					<div class="container col-4"><input id="1" class="input"></div>
+				</div>
+				<div class="container row">
+					<div class="container col-4"><input id="1" class="input"></div>
+					<div class="container col-4"><input id="1" class="input"></div>
+					<div class="container col-4"><input id="1" class="input"></div>
+				</div>
+				<div class="container row">
+					<div class="container col-4"><input id="1" class="input"></div>
+					<div class="container col-4"><input id="1" class="input"></div>
+					<div class="container col-4"><input id="1" class="input"></div>
+				</div>
+			</div>
+		</div>
 
 
-        
-    </script>
+		<!-- <div class="container center">
+			<div class="container grid-container">
+				<div class="container grid">
+					<div class="container cell"><input id="1" class="input"></input></input></div>
+					<div class="container cell"><input id="2" class="input"></input></input></div>
+					<div class="container cell"><input id="3" class="input"></input></input></div>
+					<div class="container cell"><input id="4" class="input"></input></input></div>
+					<div class="container cell"><input id="5" class="input"></input></input></div>
+					<div class="container cell"><input id="6" class="input"></input></input></div>
+					<div class="container cell"><input id="7" class="input"></input></input></div>
+					<div class="container cell"><input id="8" class="input"></input></input></div>
+					<div class="container cell"><input id="9" class="input"></input></input></div>
+				</div>
+			</div>			
+		</div> -->
+
+		<div class="container buttons">
+			<button class="btn btn-secondary solve" onclick="guestSolve()">Solve!</button>
+			<button class="btn btn-secondary login">Login</button>
+		</div>
+		<div class="container moves">
+			<p id="solution">Moves</p>
+		</div>
+
+	</div>
+
+	<script>
+		function getboard() {
+			var i;
+			var board = document.getElementById('1').value;
+			for (i = 2; i < 10; i++) {
+				temp = document.getElementById('' + i).value;
+				board = board + "," + temp;
+			};
+			return board;
+		}
+		function guestSolve() {
+			var board = getboard()
+			console.log(board)
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function () {
+				if (this.readyState == 4 && this.status == 200) {
+					var resp = JSON.parse(this.responseText);
+					document.getElementById("solution").innerHTML = resp["moves"];
+				}
+			};
+			xhttp.open("GET", "/dummy?board=" + board);
+			xhttp.send(board);
+		}
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+		crossorigin="anonymous"></script>
+</body>
+
 </html>

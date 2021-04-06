@@ -18,10 +18,9 @@ import ast
 from auth.auth import requires_auth,AuthError 
 
 
-
-#ENV_FILE = find_dotenv()
-#if ENV_FILE:
-#    load_dotenv(ENV_FILE)
+ENV_FILE = find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
 
 
 
@@ -31,7 +30,7 @@ AUTH0_CLIENT_SECRET = env.get(constants.AUTH0_CLIENT_SECRET)
 AUTH0_DOMAIN = env.get(constants.AUTH0_DOMAIN)
 AUTH0_BASE_URL = 'https://' + AUTH0_DOMAIN
 AUTH0_AUDIENCE = env.get(constants.AUTH0_AUDIENCE)
-
+DATABASE_URL = env.get(constants.DATABASE_URL)
 
 ##########################database connections##############################
 

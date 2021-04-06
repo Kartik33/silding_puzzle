@@ -1,3 +1,6 @@
+import sys
+sys.path.append("../")
+
 import json
 from os import environ as env
 from flask import request, _request_ctx_stack
@@ -5,7 +8,7 @@ from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
 from dotenv import load_dotenv, find_dotenv
-
+import constants
 ## AuthError Exception
 '''
 AuthError Exception

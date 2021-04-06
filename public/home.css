@@ -1,60 +1,84 @@
-.center {
-  width: 50%; 
-  margin: 0px auto;
-}
 .container {
-  background: black;
-  display: inline-block;
-  border: 5px solid black;
-
+  text-align: center;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 80px);
-  grid-template-rows: repeat(3, 80px);
-  grid-gap: .5%;
+.col-4 {
+  margin: 0;
+  padding: 0;
+  padding: 1%;
+  border: 1px solid black;
+}
+
+.row {
+  margin: 0%;
 }
 
 .input {
+  max-width: 100%;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.grid-container {
+  /* background: black;
+  display: inline-block;
+  border: 5px solid black;*/
+  width: 27%; 
+  margin: auto;
+
+  @media screen and (min-width: 768px) {
+    width: 55%;
+  }
+}
+
+.grid {
+  /* display: grid;
+  grid-template-columns: repeat(3, 80px);
+  grid-template-rows: repeat(3, 80px);
+  grid-gap: .5%; */
+}
+
+/* .input {
 	width: 50%; 
 	height: 50%;
-} 
+}  */
 
 .cell {
    /* center the cell content */
-  justify-content: center;
+  /* justify-content: center;
+  padding: 0;
   align-items: center;
   display: flex;
   font-family: Arial;
   font-size: 3rem;
   font-weight: bold;
-  background: white;
+  background: white; */
 }
 
 .buttons {
   align-items: center;
-  margin: 3% 
+  margin-top: 3% 
 }
 
 .infoButton {
-  width: 40%; 
-  margin: 3% auto;
+    align-items: center;
+    margin: 3%
 }
-
+/* 
 .puzzleheading {
-text-align: center;
-}
+  text-align: center;
+} */
 
-.welcome {
-text-align: center;
-}
+/* .welcome {
+  text-align: center;
+} */
 
 .moves {
-  text-align: center;
+  margin-top: 3%;
+  /* text-align: center; */
   display: inline-block;
 }
 
-.movesp {
+/* .movesp {
   align-items: center;
-}
+} */
