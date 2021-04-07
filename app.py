@@ -214,6 +214,28 @@ def deleteBoard(payload,board_id):
 
 
 
+@app.route('/dummytest',methods=['GET'])
+def insertDummy():
+    try:
+        user1 = Player(id=1,name="kartik",username="kartiktushir@gmial.com")
+        user1.insert()
+    except Exception as e:
+        print(e)
+        abort(500)
+    try:
+        user2 = Player(id=2,name="kunal",username="kunal@gmail.com")
+        b1 = Board(id=1,board_state="3892709",moves="aldksfoisdhjfn;osd",user_id=2)
+        b2 = Board(id=2,board_state="3892709",moves="aldksfoisdhjfn;osd",user_id=2)
+        user2.boards = [b1,b2]
+        user2.insert()
+    except Exception as e:
+        print(e)
+        abort(500)
+
+    return jsonify({
+        "success":True,
+        "status_code":200})
+
 
 
 @app.route('/board/<int:board_id>', methods=['PATCH'])
