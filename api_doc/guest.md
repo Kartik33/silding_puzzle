@@ -21,5 +21,4 @@ Returns the optimal moves to reach the goal state, <a href="https://sliding-puzz
     **Content:** `{ moves: ["move-right, move-up, move-down......."]}`
     
     
-    
- **[Error Format](error.md)**
+**[Error Format](error.md)**
