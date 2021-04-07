@@ -9,18 +9,15 @@
 <body>
 	<div class="container main-container">
 		<h1 class="puzzleheading">Silding Puzzle</h1>
-		<h3 class="welcome">
-			Welcome to the guest endpoint of the APIse<br>
-			&<br>
-			get information on consuming the same in your front-end project
-		</h3>
-		<h3 class="welcome">
+		<p class="welcome">
+			Welcome to the guest endpoint of the API<br>
+		</p>
+		<p class="welcome">
 			The bot will solve the puzzle for you, but the input is
 			still manual. Thanks!
-		</h3>
-		<div class=buttons>
-			<button type="button" class="btn btn-secondary infoButton">To know how to utlise the Api</button>
-		</div>
+		</p>
+		<img src="unnamed.png"/>
+		<p>The numbers should be between 0 to 8 where 0 is the blank box</p>
 		<div class="container row grid-container">
 			<div class="container grid">
 				<div class="container row">
@@ -45,8 +42,12 @@
 			<button class="btn btn-secondary solve" onclick="guestSolve()">Solve!</button>
 			<a href="/login"><button class="btn btn-secondary login">Login</button></a>
 		</div>
+		<div class="githubButton">
+			<a href="https://github.com/Kartik33/silding_puzzle"><button type="button" class="btn btn-secondary infoButton">Source code on Github</button></a>
+		</div>
 		<div class="container moves">
-			<p id="solution">Moves</p>
+			<p>Moves</p>
+			<p id="solution"></p>
 		</div>
 
 	</div>

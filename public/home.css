@@ -60,9 +60,13 @@
   margin-top: 3% 
 }
 
+.githubButton {
+  align-items: center;
+}
+
 .infoButton {
     align-items: center;
-    margin: 3%
+    margin: 0.50%
 }
 /* 
 .puzzleheading {
