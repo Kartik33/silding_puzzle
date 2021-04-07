@@ -1,12 +1,11 @@
-# Sliding Puzzle Bot using A<sup>*<sup>
-
-### The Webapp is deployed on heroku, <a href="https://sliding-puzzle-kartik33.herokuapp.com/guest">link to the guest API endpoint</a>.
+# Sliding Puzzle Bot using A<sup>*<sup>, 
+  [The Webapp is deployed on heroku](https://sliding-puzzle-kartik33.herokuapp.com/guest).
 
 Backend webapp application to solve 3X3 <a href="https://en.wikipedia.org/wiki/Sliding_puzzle">sliding tile puzzle</a>.
 
-Input: [0 - 8] where 0 is the empty tile. eg: "0,1,2,3,4,5,6,7,8"
+* Input: [0 - 8] where 0 is the empty tile. eg: "0,1,2,3,4,5,6,7,8"
 
-Output: Optimal number of moves to reach the goal state.
+* Output: Optimal number of moves to reach the goal state.
 
 Features:
 
