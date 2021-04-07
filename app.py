@@ -205,7 +205,7 @@ def deleteBoard(payload,board_id):
     try:
         boardCol.delete()
     except:
-        abort(422)
+        abort(500)
     
     return jsonify({
             "success":True,
@@ -214,14 +214,18 @@ def deleteBoard(payload,board_id):
 
 
 
-@app.route('/dummytest',methods=['GET'])
-def insertDummy():
+@app.route('/dummytest',methods=['POST'])
+@requires_auth(permission=["insert:dummy"])
+def insertDummy(payload):
     try:
         user1 = Player(id=1,name="kartik",username="kartiktushir@gmial.com")
         user1.insert()
+        user3 = Player(id=3,name="rajeeb",username="reajeev@gmial.com")
+        user3.insert()
     except Exception as e:
         print(e)
         abort(500)
+
     try:
         user2 = Player(id=2,name="kunal",username="kunal@gmail.com")
         b1 = Board(id=1,board_state="3892709",moves="aldksfoisdhjfn;osd",user_id=2)
@@ -237,6 +241,17 @@ def insertDummy():
         "status_code":200})
 
 
+@app.route("/dummyclean",methods=['DELETE'])
+@requires_auth(permission=["delete:dummy"])
+def delteDummy(payload):
+    boards = Board.query.all()
+    for b in boards:
+        b.delete()
+    players = Player.query.all()
+    for p in players:
+        p.delete()
+    return jsonify({"status":True,
+        "status_code":200})
 
 @app.route('/board/<int:board_id>', methods=['PATCH'])
 @requires_auth(permission=["update:board"])
@@ -267,7 +282,7 @@ def updateBoard(payload,board_id):
         boardCol.board = board
         boardCol.update()
     except:
-        abort(422)
+        abort(500)
 
     return {
             "success":True,
@@ -304,7 +319,7 @@ def solvePuzzle(payload):
 
         boardColumn.insert()
     except:
-        abort(422)
+        abort(500)
 
     return jsonify({
         "success":True,
@@ -315,9 +330,37 @@ def solvePuzzle(payload):
 
 ################################Error Handlers#####################################
 
+@app.errorhandler(500)
+def server_error(error):
+    return jsonify({
+           "success": False, 
+           "error": 500,
+           "message": "Resource not found"
+           }), 500 
+
+
+
+@app.errorhandler(404)
+def notFound(error):
+    return jsonify({
+           "success": False, 
+           "error": 404,
+           "message": "Resource not found"
+           }), 404
+
+
+@app.errorhandler(405)
+def badrequest(error):
+    return jsonify({
+           "success": False, 
+           "error": 405,
+           "message": "method not allowed"
+           }), 405
+
+
 
 @app.errorhandler(400)
-def notFound(error):
+def badrequest(error):
     return jsonify({
            "success": False, 
            "error": 400,

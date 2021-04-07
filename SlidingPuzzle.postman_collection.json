@@ -9,7 +9,7 @@
 			"name": "Admin",
 			"item": [
 				{
-					"name": "player",
+					"name": "dummyclean",
 					"event": [
 						{
 							"listen": "test",
@@ -17,11 +17,6 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"value contains drinks array\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.players).to.be.an('array')",
 									"});"
 								],
 								"type": "text/javascript"
@@ -29,22 +24,45 @@
 						}
 					],
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/players",
+							"raw": "{{host}}/dummyclean",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"players"
+								"dummyclean"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insertdummydata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dummytest",
+							"host": [
+								"{{host}}"
 							],
-							"query": [
-								{
-									"key": "",
-									"value": null,
-									"disabled": true
-								}
+							"path": [
+								"dummytest"
 							]
 						}
 					},
@@ -84,6 +102,48 @@
 							],
 							"path": [
 								"solve"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "player",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains drinks array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.players).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/players",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"players"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -157,7 +217,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkE4Xy12emxiZThNWFc0TDNNakNkTSJ9.eyJpc3MiOiJodHRwczovL2ZzbmQzMy51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjA0ZDQzYjQzZjY0ODkwMDY4MTk0ZDVmIiwiYXVkIjpbInB1enpsZSIsImh0dHBzOi8vZnNuZDMzLnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2MTc2MTQ0NzcsImV4cCI6MTYxNzcwMDg3NywiYXpwIjoiNEk1ZXdYQkh0TnZwY1VZWDFVdkc1bElacm1jOGc0MHkiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOnBsYXllciIsImdldDpib2FyZCIsImdldDpwbGF5ZXIiXX0.dBV4xn-r7Vw1SdyG6V3txyY3yrkX9m-OpT4Ns6bpNTvNy3zPOFTvBW_PL7pInXKy0TTmGW_r1hkv2DvS-mI0U7oXg4NciJc1BtpNxnPVm0IQPxxo8WxVJIiZcsd9GKFEl4A2Sa4ZmR8DiAVIspxymEKJ7Om3na36CJOlccmeiEmJ01h7eUirMaG_AQbHB3iBioQp5PAZeq7BzWfRENFcmr-MyHsCDazuRUQsYECtU5joNbwXnkQLh9xMq0IyVaoV0SQ4cOeuiUV0EULwQ3ZQcG3S2GD1GPQbUMeK7DFYGhotBSGmBiOiSYeo4jbcOBYWN1S8-xiS1IAD_cRAFCYGqg eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkE4Xy12emxiZThNWFc0TDNNakNkTSJ9.eyJuaWNrbmFtZSI6ImthcnRpa3R1c2hpcjMzIiwibmFtZSI6ImthcnRpa3R1c2hpcjMzQGdtYWlsLmNvbSIsInBpY3R1cmUiOiJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci8yY2I4YWUwNTczNWYxMjJjZWIyMjdmNGJiZjMzNjlhYT9zPTQ4MCZyPXBnJmQ9aHR0cHMlM0ElMkYlMkZjZG4uYXV0aDAuY29tJTJGYXZhdGFycyUyRmthLnBuZyIsInVwZGF0ZWRfYXQiOiIyMDIxLTA0LTA1VDA5OjIxOjE3LjU5OVoiLCJlbWFpbCI6ImthcnRpa3R1c2hpcjMzQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiaXNzIjoiaHR0cHM6Ly9mc25kMzMudXMuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDYwNGQ0M2I0M2Y2NDg5MDA2ODE5NGQ1ZiIsImF1ZCI6IjRJNWV3WEJIdE52cGNVWVgxVXZHNWxJWnJtYzhnNDB5IiwiaWF0IjoxNjE3NjE0NDc3LCJleHAiOjE2MTc2ODY0NzcsIm5vbmNlIjoiYW1SbUdWS1RCdWozYm9aWFFJazEifQ.nTKQG0OxqvhVC1oR_CV4P13K3tQ8d9AezQLM48ghkWo7R_xU963IsaovU8hC6RMCmobxn1_ktu5kW3wCeiyfNwrX-HqUa1wETZrd5BtgIe1X05864AgQBhvTBMMqRQ3LmiBjfMocXbDGbP1EtM-cHKWe6z6GzeJaEjS4Nr1ZveQXBBCpvjH0Dyx87ZP3tV-uuD-MMkKDM-Cj__oi6cqOqMcrxWXzNrOd1QNvzb0Rdis4Fc-stNgQxczGXcewfVocalLcRIRCMvPa0X8H6Acics3U6U89kNUhAckfuO_ewlIDf8qi0Miq0UG2V43mowaiAN4rEQ48iz3B4eE_zl-GqQ",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkE4Xy12emxiZThNWFc0TDNNakNkTSJ9.eyJpc3MiOiJodHRwczovL2ZzbmQzMy51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjA0ZDQzYjQzZjY0ODkwMDY4MTk0ZDVmIiwiYXVkIjpbInB1enpsZSIsImh0dHBzOi8vZnNuZDMzLnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2MTc3NjUxMTksImV4cCI6MTYxNzg1MTUxOSwiYXpwIjoiNEk1ZXdYQkh0TnZwY1VZWDFVdkc1bElacm1jOGc0MHkiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmR1bW15IiwiZGVsZXRlOnBsYXllciIsImdldDpib2FyZCIsImdldDpwbGF5ZXIiLCJpbnNlcnQ6ZHVtbXkiXX0.XJGmp6orP04snKe_izUb5CVXr8MyljevLcdZgbnjYX5WU7eVQMLmdHcMyCF0GYuf0cSubHCXbLh2uuggvnizuj5OMY7CUw2nPkaU67y7lcJEvRRuv1xpCaSbBAqrx5nl9WZoPFS3JnF5EmIHnKi2vaifToJ0H6D1JB0QABK4sHp_bXwrZ-ktKxyeq002_FzkjwB9GvXEerP4aLv8BEwpbgXNTh4XoiNHZt3khJbMNkuCsPdelexhl3qh2NbjR9UnSiJimKpdj1u6mrcIrUFpar2RTb9irQVOXGLBvqbfXGKX6jwzvV-S9LYhOWDyEHFam11W4X-gu604dTpOYPT3NA eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkE4Xy12emxiZThNWFc0TDNNakNkTSJ9.eyJuaWNrbmFtZSI6ImthcnRpa3R1c2hpcjMzIiwibmFtZSI6ImthcnRpa3R1c2hpcjMzQGdtYWlsLmNvbSIsInBpY3R1cmUiOiJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci8yY2I4YWUwNTczNWYxMjJjZWIyMjdmNGJiZjMzNjlhYT9zPTQ4MCZyPXBnJmQ9aHR0cHMlM0ElMkYlMkZjZG4uYXV0aDAuY29tJTJGYXZhdGFycyUyRmthLnBuZyIsInVwZGF0ZWRfYXQiOiIyMDIxLTA0LTA3VDAzOjExOjU5LjI0OFoiLCJlbWFpbCI6ImthcnRpa3R1c2hpcjMzQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiaXNzIjoiaHR0cHM6Ly9mc25kMzMudXMuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDYwNGQ0M2I0M2Y2NDg5MDA2ODE5NGQ1ZiIsImF1ZCI6IjRJNWV3WEJIdE52cGNVWVgxVXZHNWxJWnJtYzhnNDB5IiwiaWF0IjoxNjE3NzY1MTE5LCJleHAiOjE2MTc4MzcxMTksIm5vbmNlIjoiVVlEZm53T1N2aDF0QTg4RGd3YzcifQ.CSQra2lj0EouxOeKx6JV4peeBMkdi22ePz5oGUZKvfXVV0Ah0vHxK_koRtCRnG0hi4rjOee8RBuYS2lXd1WKS1-TpCJEHeNVmRykBOPEhLq7tyWhlXw3Orb-0WqukCYZTuP3aRfC284jGIwvrrr6vCgvvs4xabHF1j00j7JQP1HIo5KOTizsJmDPzZoqREXQLMZDgXk-bEzVQSYAgUK4MND-1QD4FmsczUGpjVPazRl0tMoc1CZNu0ge1806shZgnVEIcWGrNxU8COm0tHGjRP9rQJ_GqUUBZ51HjcoZrxD3GS67c8NGcuoc0H_WhvvDlzkMsu0vSdI9jz89g2FEUw",
 						"type": "string"
 					}
 				]
@@ -186,6 +246,66 @@
 		{
 			"name": "Player",
 			"item": [
+				{
+					"name": "dummyclean",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dummyclean",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dummyclean"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insertdummydata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dummytest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dummytest"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Player",
 					"event": [
@@ -272,13 +392,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/player/1/boards",
+							"raw": "{{host}}/player/2/boards",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"player",
-								"1",
+								"2",
 								"boards"
 							]
 						}
@@ -305,8 +425,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"board\":\"
-q\"}",
+							"raw": "{\"board\":\"6,1,8,4,0,2,7,3,5\"}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -540,6 +659,66 @@ q\"}",
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "dummyclean",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dummyclean",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dummyclean"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "dummyinsert",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dummytest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dummytest"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"auth": {
@@ -547,7 +726,7 @@ q\"}",
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkE4Xy12emxiZThNWFc0TDNNakNkTSJ9.eyJpc3MiOiJodHRwczovL2ZzbmQzMy51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjA2NDE5OTVlOTNmMTAwMDY4NjdiNDMzIiwiYXVkIjpbInB1enpsZSIsImh0dHBzOi8vZnNuZDMzLnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2MTc2MTQ1NjIsImV4cCI6MTYxNzcwMDk2MiwiYXpwIjoiNEk1ZXdYQkh0TnZwY1VZWDFVdkc1bElacm1jOGc0MHkiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmJvYXJkIiwiZ2V0OmJvYXJkIiwicG9zdDpzb2x2ZV9wdXp6bGUiLCJ1cGRhdGU6Ym9hcmQiXX0.j3bv7HaCJHT19d4qizl1Nz8T_0kpDwTA6BH4sYMyJ5IJQEXsVooQSVH2010miZyYrKM7SLEy8pJ4E0iYPPR7pDuhrwH7kWLFnOu8UOQlUR0IY40TMJU_lcyFNPVhWcXF5IriYpOL3Ks-Z_-P5gpo8CNFhar08RnfKY-8NwI8UdRjG53DGU8ajGhlTd06JiNCgySjc_P1Hk5FmKHk3iuvS0iWLXjFSqwPLX1UsfRb4mg5TmkKi2NcEQmOklTrxPXxC0ho2K_RXfZbz1ZpBmmdUduYb5DSEYBfzJHUzZXaxixlD3Se9yeZsQBRkfTPMsJoc4SZiD9Fb_Jkh9cgsN5zww eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkE4Xy12emxiZThNWFc0TDNNakNkTSJ9.eyJuaWNrbmFtZSI6Imt1bmFsIiwibmFtZSI6Imt1bmFsQGdtYWlsLmNvbSIsInBpY3R1cmUiOiJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci85YTI3YWFhYTdkNjJjOTZmZjhkYWI0MjY3YTk1MjMxMz9zPTQ4MCZyPXBnJmQ9aHR0cHMlM0ElMkYlMkZjZG4uYXV0aDAuY29tJTJGYXZhdGFycyUyRmt1LnBuZyIsInVwZGF0ZWRfYXQiOiIyMDIxLTA0LTA1VDA5OjIyOjQxLjcxMloiLCJlbWFpbCI6Imt1bmFsQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiaXNzIjoiaHR0cHM6Ly9mc25kMzMudXMuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDYwNjQxOTk1ZTkzZjEwMDA2ODY3YjQzMyIsImF1ZCI6IjRJNWV3WEJIdE52cGNVWVgxVXZHNWxJWnJtYzhnNDB5IiwiaWF0IjoxNjE3NjE0NTYyLCJleHAiOjE2MTc2ODY1NjIsIm5vbmNlIjoiQU9kS01zSzRYOG1VdHpHZ2h2aGgifQ.tApPoib-839sp6aha6WKMyhAH7UKKcnyg0h72nsRgN3yGGTlc7DwOFFoYii54Nj-UbEQzBeoq9qmRNNIpU3SzOfpkDqlo3M-wRU96adryPdUTg8db8_hU59KvYCysXA6f5mhqLznJ8NztTluYp8oiSdP1E4OwPfP1LdjBj2abpfZZwZToh5g60AQrN2xlNPyX2SiA6JReYXUMG8CzU9NOZUCMaHaKmUQrVL7MwtEP3ZGiy5hMgOwzqRPjQaBawIk17ZzDaYGX44eqlt0n-ty6xAn5QHIZkzEitlX1QXW55lPuIIRuP5OlUYZur77F0BXl_nNUxMDaTTPsNwlIE1OKw",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkE4Xy12emxiZThNWFc0TDNNakNkTSJ9.eyJpc3MiOiJodHRwczovL2ZzbmQzMy51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjA2NDE5OTVlOTNmMTAwMDY4NjdiNDMzIiwiYXVkIjpbInB1enpsZSIsImh0dHBzOi8vZnNuZDMzLnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2MTc3NjU1NTIsImV4cCI6MTYxNzg1MTk1MiwiYXpwIjoiNEk1ZXdYQkh0TnZwY1VZWDFVdkc1bElacm1jOGc0MHkiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmJvYXJkIiwiZ2V0OmJvYXJkIiwicG9zdDpzb2x2ZV9wdXp6bGUiLCJ1cGRhdGU6Ym9hcmQiXX0.XvmO9UZAVyNOKMj4Ugi4SDOOBQsgwHLUkh_xx-ekq4XuQVlO_QrXXPZuDqvUk6pEXYSQ0Vta0E6AWQDBib5r-9oAJpT9dIPhDPEoZ15aNu-IOpaTCdQmy68RT-PwLV3_5HfNP5tt_4XpPOoJsqIfXnuaE1tvzxpjEZATvHhYB0PRIsY0mFAwAF0aa-y-NN3U4a2rI37C9IVIYLHml-78h-4bOc6xF6tFqyNA0NpECCos4EabnlEm0DR2iNF6_TONRt-t7PsgCCdyPCCrDBrKV4zt-YC67gPcxhdFBSG1wFzP4nCVCAd7TpuUm-Uj6R7v7nHvEL5Y7wJO1QFo0cX1Eg eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkE4Xy12emxiZThNWFc0TDNNakNkTSJ9.eyJuaWNrbmFtZSI6Imt1bmFsIiwibmFtZSI6Imt1bmFsQGdtYWlsLmNvbSIsInBpY3R1cmUiOiJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci85YTI3YWFhYTdkNjJjOTZmZjhkYWI0MjY3YTk1MjMxMz9zPTQ4MCZyPXBnJmQ9aHR0cHMlM0ElMkYlMkZjZG4uYXV0aDAuY29tJTJGYXZhdGFycyUyRmt1LnBuZyIsInVwZGF0ZWRfYXQiOiIyMDIxLTA0LTA3VDAzOjE5OjExLjcxOFoiLCJlbWFpbCI6Imt1bmFsQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiaXNzIjoiaHR0cHM6Ly9mc25kMzMudXMuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDYwNjQxOTk1ZTkzZjEwMDA2ODY3YjQzMyIsImF1ZCI6IjRJNWV3WEJIdE52cGNVWVgxVXZHNWxJWnJtYzhnNDB5IiwiaWF0IjoxNjE3NzY1NTUyLCJleHAiOjE2MTc4Mzc1NTIsIm5vbmNlIjoiRmQyNUVjbEtHVUIyYk8zbkd2bGMifQ.EdRTSyldh3HxNaTjYNeZd72xAlyz30w1Ew4meqnHFZ9Ty5ol8tNc-M6wvLtrqeiGBl2a9DPNVBdD3JFr35NK-338am7qcFHRIQ39kLBhu8DHjrnd_O7u9EZ1JzRXg5K52QaqLMkITSsuvP9xkxg0FEaiwcSopFlg9oNbvU41fIln81cORI6ViNFPZP-TRyDa2gsXM5vpSeM2kHloFbooKJJ2sklSVPjsisDXJuDivfMtp3MRySie7hYJ1C0LihyCnrgZSJ_xpqf6L4RhnT5Uetb77glUCH1n7NqpLylOjUoCAqFW0S6EIigd3Zkn7gEuZmVKTKwCkAcq9B8sbRB_lA",
 						"type": "string"
 					}
 				]
@@ -570,6 +749,219 @@ q\"}",
 							""
 						]
 					}
+				}
+			]
+		},
+		{
+			"name": "cleandatabase",
+			"item": [
+				{
+					"name": "dummyclean",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dummyclean",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dummyclean"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkE4Xy12emxiZThNWFc0TDNNakNkTSJ9.eyJpc3MiOiJodHRwczovL2ZzbmQzMy51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjA0ZDQzYjQzZjY0ODkwMDY4MTk0ZDVmIiwiYXVkIjpbInB1enpsZSIsImh0dHBzOi8vZnNuZDMzLnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2MTc3NjUxMTksImV4cCI6MTYxNzg1MTUxOSwiYXpwIjoiNEk1ZXdYQkh0TnZwY1VZWDFVdkc1bElacm1jOGc0MHkiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmR1bW15IiwiZGVsZXRlOnBsYXllciIsImdldDpib2FyZCIsImdldDpwbGF5ZXIiLCJpbnNlcnQ6ZHVtbXkiXX0.XJGmp6orP04snKe_izUb5CVXr8MyljevLcdZgbnjYX5WU7eVQMLmdHcMyCF0GYuf0cSubHCXbLh2uuggvnizuj5OMY7CUw2nPkaU67y7lcJEvRRuv1xpCaSbBAqrx5nl9WZoPFS3JnF5EmIHnKi2vaifToJ0H6D1JB0QABK4sHp_bXwrZ-ktKxyeq002_FzkjwB9GvXEerP4aLv8BEwpbgXNTh4XoiNHZt3khJbMNkuCsPdelexhl3qh2NbjR9UnSiJimKpdj1u6mrcIrUFpar2RTb9irQVOXGLBvqbfXGKX6jwzvV-S9LYhOWDyEHFam11W4X-gu604dTpOYPT3NA eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkE4Xy12emxiZThNWFc0TDNNakNkTSJ9.eyJuaWNrbmFtZSI6ImthcnRpa3R1c2hpcjMzIiwibmFtZSI6ImthcnRpa3R1c2hpcjMzQGdtYWlsLmNvbSIsInBpY3R1cmUiOiJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci8yY2I4YWUwNTczNWYxMjJjZWIyMjdmNGJiZjMzNjlhYT9zPTQ4MCZyPXBnJmQ9aHR0cHMlM0ElMkYlMkZjZG4uYXV0aDAuY29tJTJGYXZhdGFycyUyRmthLnBuZyIsInVwZGF0ZWRfYXQiOiIyMDIxLTA0LTA3VDAzOjExOjU5LjI0OFoiLCJlbWFpbCI6ImthcnRpa3R1c2hpcjMzQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiaXNzIjoiaHR0cHM6Ly9mc25kMzMudXMuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDYwNGQ0M2I0M2Y2NDg5MDA2ODE5NGQ1ZiIsImF1ZCI6IjRJNWV3WEJIdE52cGNVWVgxVXZHNWxJWnJtYzhnNDB5IiwiaWF0IjoxNjE3NzY1MTE5LCJleHAiOjE2MTc4MzcxMTksIm5vbmNlIjoiVVlEZm53T1N2aDF0QTg4RGd3YzcifQ.CSQra2lj0EouxOeKx6JV4peeBMkdi22ePz5oGUZKvfXVV0Ah0vHxK_koRtCRnG0hi4rjOee8RBuYS2lXd1WKS1-TpCJEHeNVmRykBOPEhLq7tyWhlXw3Orb-0WqukCYZTuP3aRfC284jGIwvrrr6vCgvvs4xabHF1j00j7JQP1HIo5KOTizsJmDPzZoqREXQLMZDgXk-bEzVQSYAgUK4MND-1QD4FmsczUGpjVPazRl0tMoc1CZNu0ge1806shZgnVEIcWGrNxU8COm0tHGjRP9rQJ_GqUUBZ51HjcoZrxD3GS67c8NGcuoc0H_WhvvDlzkMsu0vSdI9jz89g2FEUw",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "guest",
+			"item": [
+				{
+					"name": "guest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/guest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"guest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "guestinvalid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(405);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/guest",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"guest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "solve",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains boards array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.moves).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/solve?board=6,1,8,4,0,2,7,3,5",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"solve"
+							],
+							"query": [
+								{
+									"key": "board",
+									"value": "6,1,8,4,0,2,7,3,5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "solveinvalid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/solve",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"solve"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
@@ -597,7 +989,12 @@ q\"}",
 	"variable": [
 		{
 			"key": "host",
-			"value": "localhost:3000"
+			"value": "http://127.0.0.1:5000/"
+		},
+		{
+			"key": "host",
+			"value": "https://sliding-puzzle-kartik33.herokuapp.com/",
+			"disabled": true
 		}
 	]
 }
