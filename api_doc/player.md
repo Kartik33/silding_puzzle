@@ -35,7 +35,7 @@ Delete the board from the database
 **`/solve`**
 ----
 
-Returns the optimal moves
+Saves the optimal moves and returns the optimal moves
 
 * **Method:** `POST'
 
