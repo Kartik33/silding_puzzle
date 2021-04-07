@@ -54,12 +54,12 @@ Features:
 **API Documentation**
 ----
 
-* **[Player](player.md)**
+* **[Player](api_doc/player.md)**
 
-* **[Admin](admin.md)**
+* **[Admin](api_doc/admin.md)**
 
-* **[Guest](guest.md)**
+* **[Guest](api_doc/guest.md)**
 
-* **[Authentication](auth.md)**
+* **[Authentication](api_doc/auth.md)**
 
-* **[Error Formar](error.md)**
+* **[Error Formar](api_doc/error.md)**
