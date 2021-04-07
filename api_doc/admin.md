@@ -29,4 +29,6 @@ Deletes the player with player_id
   * **Code:** 200 <br />
     **Content:** `{ player_id : 12 }`
 
+***NOTE: For now only I can provide the admin privilages***
+
 **[Error Format](error.md)**
