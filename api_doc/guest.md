@@ -16,6 +16,9 @@ Returns the optimal moves to reach the goal state, <a href="https://sliding-puzz
 
 * **Method:** `GET`
 
+* **Args**
+ * ?board="0,1,2,3,4,5,6,7,8" 
+
 * **Success Response:**
   * **Code:** 200 <br />
     **Content:** `{ moves: ["move-right, move-up, move-down......."]}`
