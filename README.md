@@ -1,5 +1,9 @@
-# Sliding Puzzle Bot using A<sup>*<sup>, 
+# Sliding Puzzle Bot using A<sup>*</sup>
   [APP is deployed on heroku](https://sliding-puzzle-kartik33.herokuapp.com/guest)
+  
+  ![Puzzle Image](unnamed.png)
+  
+  Random start state      ------------------------------>        goal state
   
 To use the API endpoints refer the [API DOC](api_doc/api_doc.md) or feel free to raise an issue. 
 
