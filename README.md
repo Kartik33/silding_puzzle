@@ -63,4 +63,4 @@ Features:
 
 * **[Authentication](api_doc/auth.md)**
 
-* **[Error Formar](api_doc/error.md)**
+* **[Error Format](api_doc/error.md)**
