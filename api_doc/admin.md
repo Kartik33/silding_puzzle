@@ -1,3 +1,11 @@
+***Header***
+
+**`-H "Authorization: Bearer ${jwt} ${id_token}"`**
+----
+  * ***NOTE: The space between "Bearer", jwt and it_token is necessary***
+  * Look in authentication document to obtains jwt and id_token.
+
+
 **`/player`**
 ----
 
