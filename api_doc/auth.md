@@ -1,7 +1,7 @@
 **`/login`**
 ----
 
-Redirects to auth0 universal login-page
+Redirects to auth0 universal login/sign-up page
 
 * **Method:** `GET`
 
