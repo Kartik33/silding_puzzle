@@ -28,3 +28,5 @@ Deletes the player with player_id
 * **Success Response:**
   * **Code:** 200 <br />
     **Content:** `{ player_id : 12 }`
+
+**[Error Format](error.md)**
