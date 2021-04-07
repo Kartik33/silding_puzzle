@@ -1,5 +1,5 @@
 # Sliding Puzzle Bot using A<sup>*<sup>, 
-  [The Webapp is deployed on heroku](https://sliding-puzzle-kartik33.herokuapp.com/guest).
+  [APP is deployed on heroku](https://sliding-puzzle-kartik33.herokuapp.com/guest).
   
 To use the API endpoints refer the [API DOC](api_doc/api_doc.md) or feel free to raise an issue. 
 
