@@ -13,7 +13,7 @@ Returns a list of players
 **`/player/<int:player_id>`**
 ----
 
-Delete the player with player_id
+Deletes the player with player_id
 
 * **Method:** `DELETE`
 
