@@ -46,6 +46,6 @@ Saves the optimal moves and returns the optimal moves
     **Content:** `{ board_state: board_state, moves="[Move-right, Move-up,...]",user_id:12}`
     
     
-**Error Format**
+**[Error Format](error.md)**
     
     
