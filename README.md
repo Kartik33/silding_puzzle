@@ -5,6 +5,20 @@
   
   Random start state      ------------------------------>        goal state
   
+ **API Documentation**
+----
+
+* **[Player](api_doc/player.md)**
+
+* **[Admin](api_doc/admin.md)**
+
+* **[Guest](api_doc/guest.md)**
+
+* **[Authentication](api_doc/auth.md)**
+
+* **[Error Format](api_doc/error.md)**
+
+  
 To use the API endpoints refer the [API DOC](api_doc/api_doc.md) and if you find any error feel free to raise an issue. 
 
 Backend webapp application to solve 3X3 <a href="https://en.wikipedia.org/wiki/Sliding_puzzle">sliding tile puzzle</a>.
@@ -55,16 +69,3 @@ Features:
   <tr>
   </tr>
 </table>    
-
-**API Documentation**
-----
-
-* **[Player](api_doc/player.md)**
-
-* **[Admin](api_doc/admin.md)**
-
-* **[Guest](api_doc/guest.md)**
-
-* **[Authentication](api_doc/auth.md)**
-
-* **[Error Format](api_doc/error.md)**
